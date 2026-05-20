@@ -5,7 +5,7 @@ import time
 def start():
     GB = 50
     download = 0
-    speed = 2
+    speed = 
 
     while download < GB:
         time.sleep(.05)
