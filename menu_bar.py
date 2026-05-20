@@ -1,19 +1,39 @@
 from tkinter import * 
+from tkinter import filedialog
 
 def openFile():
-    print('File has been opened')
+    file_path = filedialog.askopenfilename(initialdir='C:\\Users\\leone\\Desktop\\Python\\TKinter\\TKinter',
+                                           title='Open file okay?',
+                                           filetypes=(('text files','*.txt'),
+                                           ('all files', '*.*')))
+    if file_path:
+        with open(file_path, 'r') as file:
+            contents = file.read()
+
+        text.delete('1.0', END)      # clear old text
+        text.insert('1.0', contents) # put file text into the box
 
 def saveFile():
-    print('File has been saved')
+    file = filedialog.asksaveasfile(initialdir='C:\\Users\\leone\\Desktop\\Python\\TKinter\\TKinter',
+                                    defaultextension='.txt',
+                                    filetypes=[
+                                        ('Text file', '.txt'),
+                                        ('HTML file', '.html'),
+                                        ('All files', '.*'),])
+    if file is None:
+        return
+    file_text = str(text.get(1.0, END))
+    file.write(file_text)
+    file.close()
 
 def cut():
-    print('You cut some text')
+    text.event_generate("<<Cut>>")
 
 def copy():
-    print('You copied some text')
+    text.event_generate("<<Copy>>")
 
 def paste():
-    print('You pasted some text')
+    text.event_generate("<<Paste>>")
 
 window = Tk()
 
@@ -32,5 +52,8 @@ menu_bar.add_cascade(label='Edit', menu=edit_menu)
 edit_menu.add_command(label='Cut', command= cut)
 edit_menu.add_command(label='Copy', command= copy)
 edit_menu.add_command(label='Paste', command= paste)
+
+text = Text(window)
+text.pack()
 
 window.mainloop()
