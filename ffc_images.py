@@ -18,6 +18,10 @@ def forward(img_num):
     back_button.grid(row=1, column=0)
     forward_button.grid(row=1, column=2)
 
+    status = Label(root, text=f'Image {img_num} of {len(img_list)}', bd=1, relief=SUNKEN, anchor=E)
+    status.grid(row=2, column=0, columnspan=3, sticky='we')
+
+
 
 def back(img_num):
     global my_label
@@ -36,6 +40,9 @@ def back(img_num):
     back_button.grid(row=1, column=0)
     forward_button.grid(row=1, column=2)
 
+    status = Label(root, text=f'Image {img_num} of {len(img_list)}', bd=1, relief=SUNKEN, anchor=E)
+    status.grid(row=2, column=0, columnspan=3, sticky='we')
+
 root = Tk()
 root.title('Make images')
 root.iconphoto(True, PhotoImage(file='pizza.png'))
@@ -51,6 +58,7 @@ my_img5 = ImageTk.PhotoImage(Image.open('python.png'))
 
 img_list = [my_img1, my_img2, my_img3, my_img4, my_img5]
 
+status = Label(root, text=f'Image 1 of {len(img_list)}', bd=1, relief=SUNKEN, anchor=E)
 
 my_label = Label(image=my_img1)
 my_label.grid(row=0, column=0, columnspan=3)
@@ -61,6 +69,7 @@ forward_button = Button(root, text='>>', command=lambda: forward(2))
 
 back_button.grid(row=1, column=0)
 exit_button.grid(row=1, column=1)
-forward_button.grid(row=1, column=2)
+forward_button.grid(row=1, column=2, pady=10)
+status.grid(row=2, column=0, columnspan=3, sticky='we')
 
 root.mainloop()
