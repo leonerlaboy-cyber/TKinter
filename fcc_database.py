@@ -1,177 +1,599 @@
+# from tkinter import *
+# import sqlite3
+
+
+# def submit():
+
+#     # Create database or connect to one
+#     conn = sqlite3.connect('address_book.db')
+
+#     # create cursor
+#     c = conn.cursor()
+
+#     # Insert into table
+#     c.execute('INSERT INTO addresses VALUES (:f_name, :l_name, :address, :city, :state, :zipcode)',
+#             {
+#                 'f_name': f_name.get(),
+#                 'l_name': l_name.get(),
+#                 'address': address.get(),
+#                 'city': city.get(),
+#                 'state': state.get(),
+#                 'zipcode': zipcode.get()
+#             }
+#     )
+
+#     # Clear the text boxes
+#     f_name.delete(0, END)
+#     l_name.delete(0, END)
+#     address.delete(0, END)
+#     city.delete(0, END)
+#     state.delete(0, END)
+#     zipcode.delete(0, END)
+
+#     # Commit changes
+#     conn.commit()
+
+#     # Close connection
+#     conn.close()
+
+# def update():
+#     conn = sqlite3.connect('address_book.db')
+
+#     # create cursor
+#     c = conn.cursor()
+
+#     record_id = delete_box.get() 
+
+#     c.execute('''UPDATE addresses SET
+#               first_name = :first,
+#               last_name = :last,
+#               address = :address, 
+#               city = :city,
+#               state = :state, 
+#               zipcode = :zipcode
+
+#               WHERE oid = :oid''',
+#               {
+#                 'first': f_name.get(),
+#                 'last': l_name.get(),
+#                 'address': address.get(),
+#                 'city': city.get(),
+#                 'state': state.get(),
+#                 'zipcode': zipcode.get(),
+#                 'oid': record_id
+#               })
+
+#     # Commit changes
+#     conn.commit()
+
+#     # Close connection
+#     conn.close()
+
+
+# def edit():
+#     editor = Tk()
+#     editor.title('Edit a record')
+#     editor.geometry('400x400')
+
+#      # Create database or connect to one
+#     conn = sqlite3.connect('address_book.db')
+
+#     # create cursor
+#     c = conn.cursor()
+
+#     record_id = delete_box.get()
+
+#     # Query the database
+#     c.execute('SELECT * FROM addresses WHERE oid = ' + record_id)
+#     records = c.fetchall() #other options include fetchone and fetchmany(*insert how mnay*)
+
+#     # Loop through results
+#     # print_records = ''
+#     # for record in records:
+#     #     print_records += f'{record[0]} {record[1]} \t {record[-1]} \n'
+
+#     # Create Text Box Labels
+#     f_name_label = Label(editor, text='First Name')
+#     f_name_label.grid(row=0, column=0, pady=(10,0))
+
+#     l_name_label = Label(editor, text='Last Name')
+#     l_name_label.grid(row=1, column=0)
+
+#     address_label = Label(editor, text='address')
+#     address_label.grid(row=2, column=0)
+
+#     city_label = Label(editor, text='city')
+#     city_label.grid(row=3, column=0)
+
+#     state_label = Label(editor, text='state')
+#     state_label.grid(row=4, column=0)
+
+#     zipcode_label = Label(editor, text='zipcode')
+#     zipcode_label.grid(row=5, column=0)
+
+#     # Create text boxes
+#     f_name = Entry(editor, width=30)
+#     f_name.grid(row=0, column=1, padx=20, pady=(10, 0))
+
+
+#     l_name = Entry(editor, width=30)
+#     l_name.grid(row=1, column=1, padx=20)
+
+
+#     address = Entry(editor, width=30)
+#     address.grid(row=2, column=1, padx=20)
+
+#     city = Entry(editor, width=30)
+#     city.grid(row=3, column=1, padx=20)
+
+#     state = Entry(editor, width=30)
+#     state.grid(row=4, column=1, padx=20)
+
+
+#     zipcode = Entry(editor, width=30)
+#     zipcode.grid(row=5, column=1, padx=20)
+
+#     for record in records:
+#         f_name.insert(0, record[0])
+#         l_name.insert(0, record[1])
+#         address.insert(0, record[2])
+#         city.insert(0, record[3])
+#         state.insert(0, record[4])
+#         zipcode.insert(0, record[5])
+
+#     # Create Save Button to save record
+
+#     edit_button = Button(editor, text='Save Record', command=update)
+#     edit_button.grid(row=11, column=0, columnspan=2, pady=10, padx=10, ipadx=143)
+
+# def delete():
+
+#     # Create database or connect to one
+#     conn = sqlite3.connect('address_book.db')
+
+#     # create cursor
+#     c = conn.cursor()
+
+#     # Delete a record
+
+#     c.execute('DELETE FROM addresses WHERE oid = ' + delete_box.get())
+
+
+#     # Commit changes
+#     conn.commit()
+
+#     # Close connection
+#     conn.close()
+
+#     delete_box.delete(0, END)
+
+
+# def query():
+#     # Create database or connect to one
+#     conn = sqlite3.connect('address_book.db')
+
+#     # create cursor
+#     c = conn.cursor()
+
+#     # Query the database
+#     c.execute('SELECT *, oid FROM addresses')
+#     records = c.fetchall() #other options include fetchone and fetchmany(*insert how mnay*)
+#     # print(records)
+
+#     # Loop through results
+#     print_records = ''
+#     for record in records:
+#         print_records += f'{record[0]} {record[1]} \t {record[-1]} \n'
+
+#     query_label = Label(root, text=print_records)
+#     query_label.grid(row=12, column=0, columnspan=2)
+
+#     # Commit changes
+#     conn.commit()
+
+#     # Close connection
+#     conn.close()
+
+# root = Tk()
+# root.geometry('400x500')
+
+# # Databases
+
+# # Create database or connect to one
+# conn = sqlite3.connect('address_book.db')
+
+# # create cursor
+# c = conn.cursor()
+
+# # Create table
+# # c.execute('''CREATE TABLE addresses 
+# #           (
+# #           first_name text,
+# #           last_name text,
+# #           address text,
+# #           city text,
+# #           state text,
+# #           zipcode integer
+# #           )
+# # ''')
+
+# # Create Text Box Labels
+# f_name_label = Label(root, text='First Name')
+# f_name_label.grid(row=0, column=0, pady=(10,0))
+
+# l_name_label = Label(root, text='Last Name')
+# l_name_label.grid(row=1, column=0)
+
+# address_label = Label(root, text='address')
+# address_label.grid(row=2, column=0)
+
+# city_label = Label(root, text='city')
+# city_label.grid(row=3, column=0)
+
+# state_label = Label(root, text='state')
+# state_label.grid(row=4, column=0)
+
+# zipcode_label = Label(root, text='zipcode')
+# zipcode_label.grid(row=5, column=0)
+
+# delete_box_label = Label(root, text='ID Number')
+# delete_box_label.grid(row=9, column=0, pady=5)
+
+# # Create text boxes
+
+# f_name = Entry(root, width=30)
+# f_name.grid(row=0, column=1, padx=20, pady=(10, 0))
+
+
+# l_name = Entry(root, width=30)
+# l_name.grid(row=1, column=1, padx=20)
+
+
+# address = Entry(root, width=30)
+# address.grid(row=2, column=1, padx=20)
+
+# city = Entry(root, width=30)
+# city.grid(row=3, column=1, padx=20)
+
+# state = Entry(root, width=30)
+# state.grid(row=4, column=1, padx=20)
+
+
+# zipcode = Entry(root, width=30)
+# zipcode.grid(row=5, column=1, padx=20)
+
+# delete_box = Entry(root, width=30)
+# delete_box.grid(row=9, column=1, pady=5)
+
+# # Create submit button
+
+# submit_button = Button(root, text='Add record to database', command=submit)
+# submit_button.grid(row=6, column=0, columnspan=2, pady=(30, 10), padx=10, ipadx=113)
+
+# # Create a Query Button
+
+# query_button = Button(root, text='Show Records', command=query)
+# query_button.grid(row=7, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
+
+# # Create a delete Button
+
+# delete_button = Button(root, text='Delete Record', command=delete)
+# delete_button.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
+
+# # Create an Update Button 
+
+# edit_button = Button(root, text='Edit Record', command=edit)
+# edit_button.grid(row=11, column=0, columnspan=2, pady=10, padx=10, ipadx=143)
+
+# # Commit changes
+# conn.commit()
+
+# # Close connection
+# conn.close()
+
+# mainloop()
+
+
+# -------------------------------------------------------------------------------------------
+
 from tkinter import *
+from PIL import ImageTk,Image
 import sqlite3
 
 
-def submit():
-
-    # Create database or connect to one
-    conn = sqlite3.connect('address_book.db')
-
-    # create cursor
-    c = conn.cursor()
-
-    # Insert into table
-    c.execute('INSERT INTO addresses VALUES (:f_name, :l_name, :address, :city, :state, :zipcode)',
-            {
-                'f_name': f_name.get(),
-                'l_name': l_name.get(),
-                'address': address.get(),
-                'city': city.get(),
-                'state': state.get(),
-                'zipcode': zipcode.get()
-            }
-    )
-
-    # Clear the text boxes
-    f_name.delete(0, END)
-    l_name.delete(0, END)
-    address.delete(0, END)
-    city.delete(0, END)
-    state.delete(0, END)
-    zipcode.delete(0, END)
-
-    # Commit changes
-    conn.commit()
-
-    # Close connection
-    conn.close()
-
-def delete():
-
-    # Create database or connect to one
-    conn = sqlite3.connect('address_book.db')
-
-    # create cursor
-    c = conn.cursor()
-
-    # Delete a record
-
-    c.execute('DELETE FROM addresses WHERE oid = ' + delete_box.get())
-
-
-    # Commit changes
-    conn.commit()
-
-    # Close connection
-    conn.close()
-
-
-def query():
-    # Create database or connect to one
-    conn = sqlite3.connect('address_book.db')
-
-    # create cursor
-    c = conn.cursor()
-
-    # Query the database
-    c.execute('SELECT *, oid FROM addresses')
-    records = c.fetchall() #other options include fetchone and fetchmany(*insert how mnay*)
-    # print(records)
-
-    # Loop through results
-    print_records = ''
-    for record in records:
-        print_records += f'{record[0]} {record[1]} \t {record[-1]} \n'
-
-    query_label = Label(root, text=print_records)
-    query_label.grid(row=11, column=0, columnspan=2)
-
-    # Commit changes
-    conn.commit()
-
-    # Close connection
-    conn.close()
-
 root = Tk()
-root.geometry('400x400')
+root.title('Codemy.com - Learn To Code!')
+root.geometry("400x600")
 
 # Databases
 
-# Create database or connect to one
+# Create a database or connect to one
 conn = sqlite3.connect('address_book.db')
 
-# create cursor
+# Create cursor
 c = conn.cursor()
 
 # Create table
-# c.execute('''CREATE TABLE addresses 
-#           (
-#           first_name text,
-#           last_name text,
-#           address text,
-#           city text,
-#           state text,
-#           zipcode integer
-#           )
-# ''')
+'''
+c.execute("""CREATE TABLE addresses (
+		first_name text,
+		last_name text,
+		address text,
+		city text,
+		state text,
+		zipcode integer
+		)""")
+'''
+# Create Update function to update a record
+def update():
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
 
-# Create Text Box Labels
-f_name_label = Label(root, text='First Name')
-f_name_label.grid(row=0, column=0, pady=(10,0))
+	record_id = delete_box.get()
 
-l_name_label = Label(root, text='Last Name')
-l_name_label.grid(row=1, column=0)
+	c.execute("""UPDATE addresses SET
+		first_name = :first,
+		last_name = :last,
+		address = :address,
+		city = :city,
+		state = :state,
+		zipcode = :zipcode 
 
-address_label = Label(root, text='address')
-address_label.grid(row=2, column=0)
+		WHERE oid = :oid""",
+		{
+		'first': f_name_editor.get(),
+		'last': l_name_editor.get(),
+		'address': address_editor.get(),
+		'city': city_editor.get(),
+		'state': state_editor.get(),
+		'zipcode': zipcode_editor.get(),
+		'oid': record_id
+		})
 
-city_label = Label(root, text='city')
-city_label.grid(row=3, column=0)
 
-state_label = Label(root, text='state')
-state_label.grid(row=4, column=0)
+	#Commit Changes
+	conn.commit()
 
-zipcode_label = Label(root, text='zipcode')
-zipcode_label.grid(row=5, column=0)
+	# Close Connection 
+	conn.close()
 
-delete_box_label = Label(root, text='ID Number')
-delete_box_label.grid(row=9, column=0, pady=5)
+	editor.destroy()
+	root.deiconify()
 
-# Create text boxes
+# Create Edit function to update a record
+def edit():
+	root.withdraw()
+	global editor
+	editor = Tk()
+	editor.title('Update A Record')
+	editor.geometry("400x300")
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
+	record_id = clicked.get()
+	#record_id = delete_box.get()
+	# Query the database
+	c.execute("SELECT * FROM addresses WHERE oid = " + record_id)
+	records = c.fetchall()
+	
+	#Create Global Variables for text box names
+	global f_name_editor
+	global l_name_editor
+	global address_editor
+	global city_editor
+	global state_editor
+	global zipcode_editor
 
+	# Create Text Boxes
+	f_name_editor = Entry(editor, width=30)
+	f_name_editor.grid(row=0, column=1, padx=20, pady=(10, 0))
+	l_name_editor = Entry(editor, width=30)
+	l_name_editor.grid(row=1, column=1)
+	address_editor = Entry(editor, width=30)
+	address_editor.grid(row=2, column=1)
+	city_editor = Entry(editor, width=30)
+	city_editor.grid(row=3, column=1)
+	state_editor = Entry(editor, width=30)
+	state_editor.grid(row=4, column=1)
+	zipcode_editor = Entry(editor, width=30)
+	zipcode_editor.grid(row=5, column=1)
+	
+	# Create Text Box Labels
+	f_name_label = Label(editor, text="First Name")
+	f_name_label.grid(row=0, column=0, pady=(10, 0))
+	l_name_label = Label(editor, text="Last Name")
+	l_name_label.grid(row=1, column=0)
+	address_label = Label(editor, text="Address")
+	address_label.grid(row=2, column=0)
+	city_label = Label(editor, text="City")
+	city_label.grid(row=3, column=0)
+	state_label = Label(editor, text="State")
+	state_label.grid(row=4, column=0)
+	zipcode_label = Label(editor, text="Zipcode")
+	zipcode_label.grid(row=5, column=0)
+
+	# Loop thru results
+	for record in records:
+		f_name_editor.insert(0, record[0])
+		l_name_editor.insert(0, record[1])
+		address_editor.insert(0, record[2])
+		city_editor.insert(0, record[3])
+		state_editor.insert(0, record[4])
+		zipcode_editor.insert(0, record[5])
+
+	
+	# Create a Save Button To Save edited record
+	edit_btn = Button(editor, text="Save Record", command=update)
+	edit_btn.grid(row=6, column=0, columnspan=2, pady=10, padx=10, ipadx=145)
+
+	
+
+
+# Create Function to Delete A Record
+def delete():
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
+
+	# Delete a record
+	c.execute("DELETE from addresses WHERE oid = " + delete_box.get())
+
+	delete_box.delete(0, END)
+
+	#Commit Changes
+	conn.commit()
+
+	# Close Connection 
+	conn.close()
+
+
+
+# Create Submit Function For database
+def submit():
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
+
+	# Insert Into Table
+	c.execute("INSERT INTO addresses VALUES (:f_name, :l_name, :address, :city, :state, :zipcode)",
+			{
+				'f_name': f_name.get(),
+				'l_name': l_name.get(),
+				'address': address.get(),
+				'city': city.get(),
+				'state': state.get(),
+				'zipcode': zipcode.get()
+			})
+
+
+	#Commit Changes
+	conn.commit()
+
+	# Close Connection 
+	conn.close()
+
+	# Clear The Text Boxes
+	f_name.delete(0, END)
+	l_name.delete(0, END)
+	address.delete(0, END)
+	city.delete(0, END)
+	state.delete(0, END)
+	zipcode.delete(0, END)
+
+def show_id():
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
+
+	# Query the database
+	c.execute("SELECT oid FROM addresses")
+	records = c.fetchall()
+	# print(records)
+
+	options = []
+	global clicked 
+	clicked = StringVar()
+	
+
+	# Loop Thru Results
+	print_records = ''
+	for record in records:
+		options.append(str(record[0]))
+
+	clicked.set(options[0])
+	drop = OptionMenu(root, clicked, *options)
+	drop.grid(row=20, column=0, columnspan=2)
+
+# Create Query Function
+def query():
+	# Create a database or connect to one
+	conn = sqlite3.connect('address_book.db')
+	# Create cursor
+	c = conn.cursor()
+
+	# Query the database
+	c.execute("SELECT *, oid FROM addresses")
+	records = c.fetchall()
+	# print(records)
+
+	# Loop Thru Results
+	print_records = ''
+	for record in records:
+		print_records += str(record[0]) + " " + str(record[1]) + " " + "\t" +str(record[6]) + "\n"
+		
+
+	query_label = Label(root, text=print_records)
+	query_label.grid(row=12, column=0, columnspan=2)
+
+	#Commit Changes
+	conn.commit()
+
+	# Close Connection 
+	conn.close()
+
+
+# Create Text Boxes
 f_name = Entry(root, width=30)
 f_name.grid(row=0, column=1, padx=20, pady=(10, 0))
-
-
 l_name = Entry(root, width=30)
-l_name.grid(row=1, column=1, padx=20)
-
-
+l_name.grid(row=1, column=1)
 address = Entry(root, width=30)
-address.grid(row=2, column=1, padx=20)
-
+address.grid(row=2, column=1)
 city = Entry(root, width=30)
-city.grid(row=3, column=1, padx=20)
-
+city.grid(row=3, column=1)
 state = Entry(root, width=30)
-state.grid(row=4, column=1, padx=20)
-
-
+state.grid(row=4, column=1)
 zipcode = Entry(root, width=30)
-zipcode.grid(row=5, column=1, padx=20)
-
+zipcode.grid(row=5, column=1)
 delete_box = Entry(root, width=30)
 delete_box.grid(row=9, column=1, pady=5)
 
-# Create submit button
 
-submit_button = Button(root, text='Add record to database', command=submit)
-submit_button.grid(row=6, column=0, columnspan=2, pady=(30, 10), padx=10, ipadx=113)
+# Create Text Box Labels
+f_name_label = Label(root, text="First Name")
+f_name_label.grid(row=0, column=0, pady=(10, 0))
+l_name_label = Label(root, text="Last Name")
+l_name_label.grid(row=1, column=0)
+address_label = Label(root, text="Address")
+address_label.grid(row=2, column=0)
+city_label = Label(root, text="City")
+city_label.grid(row=3, column=0)
+state_label = Label(root, text="State")
+state_label.grid(row=4, column=0)
+zipcode_label = Label(root, text="Zipcode")
+zipcode_label.grid(row=5, column=0)
+delete_box_label = Label(root, text="Select ID")
+delete_box_label.grid(row=9, column=0, pady=5)
+
+# Create Submit Button
+submit_btn = Button(root, text="Add Record To Database", command=submit)
+submit_btn.grid(row=6, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
 # Create a Query Button
+query_btn = Button(root, text="Show Records", command=query)
+query_btn.grid(row=7, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
 
-query_button = Button(root, text='Show Records', command=query)
-query_button.grid(row=7, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
+#Create A Delete Button
+delete_btn = Button(root, text="Delete Record", command=delete)
+delete_btn.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=136)
 
-# Create a delete Button
+# Create an Update Button
+edit_btn = Button(root, text="Edit Record", command=edit)
+edit_btn.grid(row=11, column=0, columnspan=2, pady=10, padx=10, ipadx=143)
 
-delete_button = Button(root, text='Delete Record', command=delete)
-delete_button.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
 
-# Commit changes
+#Commit Changes
 conn.commit()
 
-# Close connection
+# Close Connection 
 conn.close()
 
-mainloop()
+show_id()
+
+root.mainloop()
